@@ -19,8 +19,8 @@
 ## itemsテーブル
 | Column             | Type       | Options                        |
 | ------------------ | ---------- | ------------------------------ |
-| item_name          | string     | null: false                    |
-| item_text          | text       | null: false                    |
+| name               | string     | null: false                    |
+| text               | text       | null: false                    |
 | price              | integer    | null: false                    |
 | status_id          | integer    | null: false                    |
 | category_id        | integer    | null: false                    |
@@ -37,7 +37,7 @@
 - belongs_to_active_hash :category
 - belongs_to_active_hash :prefecture
 - belongs_to_active_hash :day
-- belongs_to_active_hash :delivery_charge_id
+- belongs_to_active_hash :delivery_charge
 
 
 ## ordersテーブル
