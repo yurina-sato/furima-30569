@@ -1,31 +1,19 @@
 
 ## usersテーブル(devise)
-| Column     | Type   | Options     |
-| ---------- | ------ | ----------- |
-| email      | string | null: false |
-| password   | string | null: false |
-| name       | string | null: false |
+| Column          | Type       | Options     |
+| --------------- | ---------- | ----------- |
+| email           | string     | null: false |
+| password        | string     | null: false |
+| name            | string     | null: false |
+| first_name      | string     | null: false |
+| last_name       | string     | null: false |
+| first_name_kana | string     | null: false |
+| last_name_kana  | string     | null: false |
+| birth_date      | date       | null: false |
 
 ### Association
 - has_many :items
 - has_many :orders
-- has_one :profile
-
-
-## profilesテーブル
-| Column           | Type       | Options                        |
-| ---------------- | ---------- | ------------------------------ |
-| first_name       | string     | null: false                    |
-| last_name        | string     | null: false                    |
-| first_name_kana  | string     | null: false                    |
-| last_name_kana   | string     | null: false                    |
-| birth_date_year  | integer    | null: false                    |
-| birth_date_month | integer    | null: false                    |
-| birth_date_day   | integer    | null: false                    |
-| user             | references | null: false, foreign_key: true |
-
-### Association
-- belongs_to :user
 
 
 ## itemsテーブル
