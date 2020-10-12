@@ -13,7 +13,7 @@ class Item < ApplicationRecord
   validates :price, numericality: { with: /\A[0-9]+\z/, message: 'Half-width number' } # 半角数字の正規表現
 
   with_options presence: true do
-    validates :user, :image, :name, :text
+    validates :image, :name, :text
 
     validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999, message: 'Out of setting range' }
 
