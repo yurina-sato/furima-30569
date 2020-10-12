@@ -13,11 +13,11 @@ RSpec.describe Item, type: :model do
       expect(@item).to be_valid
     end
     it 'priceが9,999,999以下であれば出品できる' do
-      @item.price = 9999999
+      @item.price = 9_999_999
       expect(@item).to be_valid
     end
     it 'priceが半角数字であれば出品できる' do
-      @item.price = 55555
+      @item.price = 55_555
       expect(@item).to be_valid
     end
   end
@@ -46,47 +46,47 @@ RSpec.describe Item, type: :model do
     it 'priceが300未満の場合は出品できない' do
       @item.price = 299
       @item.valid?
-      expect(@item.errors.full_messages).to include("Price Out of setting range")
+      expect(@item.errors.full_messages).to include('Price Out of setting range')
     end
     it 'priceが9,999,999より大きい場合は出品できない' do
-      @item.price = 10000000
+      @item.price = 10_000_000
       @item.valid?
-      expect(@item.errors.full_messages).to include("Price Out of setting range")
+      expect(@item.errors.full_messages).to include('Price Out of setting range')
     end
     it 'priceが全角数字の場合は出品できない' do
-      @item.price = "７７７７"
+      @item.price = '７７７７'
       @item.valid?
-      expect(@item.errors.full_messages).to include("Price Out of setting range", "Price Half-width number")
+      expect(@item.errors.full_messages).to include('Price Out of setting range', 'Price Half-width number')
     end
     it 'status_idが0の場合は出品できない' do
       @item.status_id = 0
       @item.valid?
-      expect(@item.errors.full_messages).to include("Status Select")
+      expect(@item.errors.full_messages).to include('Status Select')
     end
     it 'category_idが0の場合は出品できない' do
       @item.category_id = 0
       @item.valid?
-      expect(@item.errors.full_messages).to include("Category Select")
+      expect(@item.errors.full_messages).to include('Category Select')
     end
     it 'prefecture_idが0の場合は出品できない' do
       @item.prefecture_id = 0
       @item.valid?
-      expect(@item.errors.full_messages).to include("Prefecture Select")
+      expect(@item.errors.full_messages).to include('Prefecture Select')
     end
     it 'day_idが0の場合は出品できない' do
       @item.day_id = 0
       @item.valid?
-      expect(@item.errors.full_messages).to include("Day Select")
+      expect(@item.errors.full_messages).to include('Day Select')
     end
     it 'delivery_charge_idが0の場合は出品できない' do
       @item.delivery_charge_id = 0
       @item.valid?
-      expect(@item.errors.full_messages).to include("Delivery charge Select")
+      expect(@item.errors.full_messages).to include('Delivery charge Select')
     end
     it 'userが紐付いてない場合は出品できない' do
       @item.user = nil
       @item.valid?
-      expect(@item.errors.full_messages).to include("User must exist", "User can't be blank")
+      expect(@item.errors.full_messages).to include('User must exist', "User can't be blank")
     end
   end
 end
