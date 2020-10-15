@@ -17,7 +17,6 @@
       <%= link_to image_tag("dl-android.png", class:"google-btn"), "#" %>
     </div>
   </div>
-  <%# /画面上部の「人生を変えるフリマアプリ」帯部分  %>
 
   <%# FURIMAが選ばれる3つの理由部分 %>
   <div class='select-reason-contents'>
@@ -60,7 +59,6 @@
       </li>
     </ul>
   </div>
-  <%# /FURIMAが選ばれる3つの理由部分 %>
 
   <%# 画面中央の「会員数日本一位」帯部分 %>
   <div class='ad-contents'>
@@ -81,7 +79,6 @@
       <%= link_to image_tag("dl-android.png", class:"google-btn"), "#" %>
     </div>
   </div>
-  <%# /画面中央の「会員数日本一位」帯部分 %>
 
   <%# FURIMAの特徴 %>
   <div class='feature-contents'>
@@ -118,7 +115,6 @@
       </li>
     </ul>
   </div>
-  <%# /FURIMAの特徴 %>
 
   <%# 商品一覧 %>
   <div class='item-contents'>
@@ -132,11 +128,12 @@
             <div class='item-img-content'>
               <%= image_tag item.image, class: "item-img" %>
 
-              <%# 商品が売れていればsold outを表示しましょう %>
-              <%# <div class='sold-out'>
-                <span>Sold Out!!</span>
-              </div> %>
-              <%# //商品が売れていればsold outを表示しましょう %>
+              <%# 商品が売れている場合 %>
+              <% if item.order != nil  %>
+                <div class='sold-out'>
+                  <span>Sold Out!!</span>
+                </div>
+              <% end %>  
 
             </div>
             <div class='item-info'>
@@ -175,10 +172,9 @@
           <% end %>
         </li>
       <% end %>
-      <%# /商品がない場合のダミー %>
+
     </ul>
   </div>
-  <%# /商品一覧 %>
 </div>
 <div class='purchase-btn'>
   <span class='purchase-btn-text'>出品する</span>
