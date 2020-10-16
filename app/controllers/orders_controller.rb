@@ -21,12 +21,11 @@ class OrdersController < ApplicationController
   private
 
   def order_address_params # ストロングパラメーターを一つに統合
-    params.require(:order_address).permit(:postal_cord, :prefecture_id, :city, :house_number, :building, :phone_number
-    ).merge(item_id: params[:item_id], user_id: current_user.id, price: @item.price, token: params[:token])
+    params.require(:order_address).permit(:postal_cord, :prefecture_id, :city, :house_number, :building, :phone_number).merge(item_id: params[:item_id], user_id: current_user.id, price: @item.price, token: params[:token])
   end
 
   def move_to_index
-    redirect_to root_path if user_signed_in? && current_user.id == @item.user.id || @item.order != nil
+    redirect_to root_path if user_signed_in? && current_user.id == @item.user.id || !@item.order.nil?
   end
 
   def set_item
@@ -34,7 +33,7 @@ class OrdersController < ApplicationController
   end
 
   def pay_item
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"] # テスト秘密鍵
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY'] # テスト秘密鍵
     Payjp::Charge.create(
       amount: order_address_params[:price],
       card: order_address_params[:token],
