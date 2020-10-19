@@ -4,11 +4,12 @@ class OrderAddress
 
   # Addressモデルのバリデーション
   with_options presence: true do
-    validates :postal_cord, format: { with: /\A\d{3}[-]\d{4}\z/, message: 'Input correctly' } # 郵便番号の正規表現(3桁-4桁)
-    validates :prefecture_id, numericality: { other_than: 0, message: 'Select' }
-    validates :city, :house_number, :token
-    validates :phone_number, numericality: { with: /\A\d{10,11}\z/, message: ' Input only number' } # 電話番号(半角・ハイフンなし10桁or11桁)
+    validates :postal_cord, format: { with: /\A\d{3}[-]\d{4}\z/, message: 'はハイフンを入れて正しく入力してください' } # 郵便番号の正規表現(3桁-4桁)
+    validates :prefecture_id, numericality: { other_than: 0, message: 'を選択してください' }
+    validates :city, :house_number, :token, :item_id, :user_id
+    validates :phone_number, numericality: { with: /\A\d{10,11}\z/, message: 'は半角数字で入力してください' } # 電話番号(半角・ハイフンなし)
   end
+  validates :phone_number, length: {maximum: 11, message: 'は11桁以内で入力してください'} # 電話番号(11桁以内)
 
   def save
     order = Order.create(item_id: item_id, user_id: user_id)
