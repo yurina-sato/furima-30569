@@ -7,7 +7,14 @@
     </h1>
     <%# 購入内容の表示 %>
     <div class='buy-item-info'>
-      <%= image_tag @item.image, class: 'buy-item-img' %>
+      <%# <%= image_tag @item.image, class: 'buy-item-img' %> 
+      <%# 1枚目の画像のみ表示, S3移行前の画像はno_images.pngに差し替え %>
+      <% if @item.images.attached? && @item.images.count > 0 %>
+        <%= image_tag @item.images.first, class:'buy-item-img' %>
+      <% else %>
+        <%= image_tag 'no_images.png', class: 'buy-item-img' %>
+      <% end %>
+
       <div class='buy-item-right-content'>
         <h2 class='buy-item-text'>
           <%= @item.name %>

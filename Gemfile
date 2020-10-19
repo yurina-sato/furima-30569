@@ -72,4 +72,4 @@ end
 gem 'payjp'
 gem "aws-sdk-s3", require: false
 gem 'jquery-rails'
-
+gem 'rails-i18n'
