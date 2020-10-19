@@ -1,0 +1,54 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザ
+      item: 商品
+    attributes:
+      user:
+        nickname: ニックネーム
+        birth_date: 生年月日
+        first_name: 名字
+        first_name_kana: 名字(フリガナ)
+        last_name: 名前
+        last_name_kana: 名前(フリガナ)
+      item:
+        text: 商品の説明
+        images: 出品画像
+        price: 販売価格
+        name: 商品名
+        status_id: 商品の状態
+        category_id: カテゴリー
+        prefecture_id: 発送元の地域
+        day_id: 発送までの日数
+        delivery_charge_id: 配送料の負担
+        user: 購入ユーザ
+    errors:
+      messages:
+        full-width_characters: "は全角(漢字・かな・カナ)で入力してください"
+        full-width_katakana_characters: "は全角(カナ)で入力してください"
+        include_both_letters_and_numbers: "は英字と数字を両方含んでください"
+
+        half_width_number: "は半角数字で入力してください"
+        out_of_setting_range: "は範囲内で金額を設定してください"
+        select: "を選択してください"
+
+  activemodel:
+    models: 
+      order_address: 
+    attributes:
+      order_address:
+        postal_cord: 郵便番号
+        prefecture_id: 都道府県
+        city: 市区町村
+        house_number: 番地
+        building: 建物名
+        phone_number: 電話番号
+        token: クレジットカード情報
+        user_id: 購入ユーザ
+        item_id: 商品
+    errors:    
+      messages:
+        input_correctly: "はハイフンを入れて正しく入力してください"
+        select: "を選択してください"
+        input_only_number: "は半角数字で入力してください"
+
