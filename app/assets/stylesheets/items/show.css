@@ -25,6 +25,12 @@
   font-size: 25px;
 }
 
+.previews {
+  height: 50vh;
+  width: 60vw;
+  min-height: 500px;
+}
+
 .item-box-img {
   height: 50vh;
   width: 60vw;
