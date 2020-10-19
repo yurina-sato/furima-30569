@@ -7,9 +7,15 @@
       <%= @item.name %>
     </h2>
     <div class='item-img-content'>
-      <%# 1枚目の画像のみ表示, S3移行前の画像はno_images.pngに差し替え %>
-      <% if @item.images.attached? && @item.images.count > 0 %>
-        <%= image_tag @item.images.first, class:'item-box-img' %>
+      <%# 画像スライド表示, S3移行前の画像はno_images.pngに差し替え %>
+      <% if @item.images.attached? %>
+        <div class="previews">
+          <ul class="slider">
+            <% @item.images.each do |image| %>
+              <li><%= image_tag image, class:'item-box-img' %></li>
+            <% end %>
+          </ul>
+        </div>
       <% else %>
         <%= image_tag 'no_images.png', class: 'item-box-img' %>
       <% end %>
