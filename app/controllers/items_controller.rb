@@ -14,15 +14,17 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     if @item.save
-      redirect_to root_path
+      redirect_to root_path, notice: "出品が完了しました。"
     else
+      @item.images = nil # 画像プレビューを空にする
       render :new
     end
   end
 
+  
   def update
     if @item.update(item_params)
-      redirect_to item_path(@item.id)
+      redirect_to item_path(@item.id), notice: "商品の編集が完了しました。"
     else
       render :edit
     end
@@ -30,7 +32,7 @@ class ItemsController < ApplicationController
 
   def destroy
     if @item.destroy
-      redirect_to root_path
+      redirect_to root_path, notice: "商品を削除しました。"
     else
       render :show
     end
