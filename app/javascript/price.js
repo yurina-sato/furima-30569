@@ -1,4 +1,3 @@
-if (document.URL.match( /new/ ) || document.URL.match( /edit/ )) {
   function price (){
     const itemPrice = document.getElementById("item-price");
     itemPrice.addEventListener("keyup", () => {
@@ -16,4 +15,3 @@ if (document.URL.match( /new/ ) || document.URL.match( /edit/ )) {
   
   setInterval(price, 1000);
 
-};
