@@ -1,4 +1,4 @@
-if (document.URL.match( /new/ ) || document.URL.match( /edit/ )) {
+// if (document.URL.match( /new/ ) || document.URL.match( /edit/ )) {
   document.addEventListener('DOMContentLoaded', function(){
     const ImageList = document.getElementById('image-list');
     
@@ -25,6 +25,7 @@ if (document.URL.match( /new/ ) || document.URL.match( /edit/ )) {
       ImageList.appendChild(imageElement);
 
       inputHTML.addEventListener('change', (e) => {
+        
         file = e.target.files[0];
         blob = window.URL.createObjectURL(file);
 
@@ -43,4 +44,6 @@ if (document.URL.match( /new/ ) || document.URL.match( /edit/ )) {
     });
   });
 
-};
+// };
+
+
