@@ -14,6 +14,7 @@
 ### Association
 - has_many :items
 - has_many :orders
+- has_many :comments
 
 
 ## itemsテーブル
@@ -38,6 +39,7 @@
 - belongs_to_active_hash :prefecture
 - belongs_to_active_hash :day
 - belongs_to_active_hash :delivery_charge
+- has_many :comments
 
 
 ## ordersテーブル
@@ -67,3 +69,14 @@
 - belongs_to :order
 - belongs_to_active_hash :prefecture
 
+
+## 【追加実装】commentsテーブル
+| Column | Type       | Options                        |
+| ------ | ---------- | ------------------------------ |
+| text   | text       | null: false                    |
+| item   | references | null: false, foreign_key: true |
+| user   | references | null: false, foreign_key: true |
+
+### Association
+- belongs_to :item
+- belongs_to :user

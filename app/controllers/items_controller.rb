@@ -8,6 +8,11 @@ class ItemsController < ApplicationController
     @items = Item.all.includes(:user).order('created_at DESC')
   end
 
+  def show
+    @comment = Comment.new
+    @comments = @item.comments.includes(:user)
+  end
+
   def new
     @item = Item.new
   end
@@ -21,7 +26,6 @@ class ItemsController < ApplicationController
       render :new
     end
   end
-
   
   def update
     if @item.update(item_params)

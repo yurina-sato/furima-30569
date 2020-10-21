@@ -3,6 +3,7 @@ ja:
     models:
       user: ユーザ
       item: 商品
+      comment: コメント
     attributes:
       user:
         nickname: ニックネーム
@@ -22,6 +23,8 @@ ja:
         day_id: 発送までの日数
         delivery_charge_id: 配送料の負担
         user: 購入ユーザ
+      comment:
+        text: コメント文
     errors:
       messages:
         full-width_characters: "は全角(漢字・かな・カナ)で入力してください"
