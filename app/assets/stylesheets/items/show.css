@@ -161,6 +161,13 @@
   resize: none;
 }
 
+/* 追加実装 */
+.comments p{ 
+  text-align: left;
+  margin: 0 20px 1rem 20px;
+}
+/* //追加実装 */
+
 .comment-warn {
   padding: 10px;
   font-size: 14px;
