@@ -1,7 +1,8 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_search, only: [:index, :show]
   before_action :move_to_index, only: [:edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show, :search]
 
   def index
     @items = Item.all.includes(:user).order('created_at DESC')
@@ -38,6 +39,18 @@ class ItemsController < ApplicationController
     end
   end
 
+  def search
+    if search_params != nil
+      keywords = search_params[:name_or_text_cont].split(/[\p{blank}\s]+/) # キーワードを分割した配列に入れ直し
+      grouping_hash = keywords.reduce({}){|hash, word| hash.merge(word => { name_or_text_cont: word })} # 分割したキーワードをransackに渡すパラメーターに組み立て直す
+      @search = Item.ransack({ combinator: 'and', groupings: grouping_hash }) # ransackにパラメーターを渡し、ヒットした値をオブジェクト化
+      @items = @search.result(distinct: true).order('created_at DESC') # オブジェクトの結果をビューの@itemsに渡す
+    else
+      @search = Item.ransack(search_params)
+      @items = @search.result(distinct: true).order('created_at DESC')
+    end
+  end
+
   private
 
   def item_params
@@ -51,4 +64,14 @@ class ItemsController < ApplicationController
   def set_item
     @item = Item.find(params[:id])
   end
+
+  def search_params
+    params.require(:q).permit(:name_or_text_cont)
+  end
+
+  def set_search
+    @search = Item.ransack(params[:q])
+  end
+
 end
+
