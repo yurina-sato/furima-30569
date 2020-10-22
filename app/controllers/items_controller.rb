@@ -20,16 +20,16 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     if @item.save
-      redirect_to root_path, notice: "出品が完了しました。"
+      redirect_to root_path, notice: '出品が完了しました。'
     else
       @item.images = nil # 画像プレビューを空にする
       render :new
     end
   end
-  
+
   def update
     if @item.update(item_params)
-      redirect_to item_path(@item.id), notice: "商品の編集が完了しました。"
+      redirect_to item_path(@item.id), notice: '商品の編集が完了しました。'
     else
       render :edit
     end
@@ -37,16 +37,16 @@ class ItemsController < ApplicationController
 
   def destroy
     if @item.destroy
-      redirect_to root_path, notice: "商品を削除しました。"
+      redirect_to root_path, notice: '商品を削除しました。'
     else
       render :show
     end
   end
 
   def search
-    if search_params != nil
+    if !search_params.nil?
       keywords = search_params[:name_or_text_cont].split(/[\p{blank}\s]+/) # キーワードを分割した配列に入れ直し
-      grouping_hash = keywords.reduce({}){|hash, word| hash.merge(word => { name_or_text_cont: word })} # 分割したキーワードをransackに渡すパラメーターに組み立て直す
+      grouping_hash = keywords.reduce({}) { |hash, word| hash.merge(word => { name_or_text_cont: word }) } # 分割したキーワードをransackに渡すパラメーターに組み立て直す
       @search = Item.ransack({ combinator: 'and', groupings: grouping_hash }) # ransackにパラメーターを渡し、ヒットした値をオブジェクト化
       @items = @search.result(distinct: true).order('created_at DESC') # オブジェクトの結果をビューの@itemsに渡す
     else
@@ -76,6 +76,4 @@ class ItemsController < ApplicationController
   def set_search
     @search = Item.ransack(params[:q])
   end
-
 end
-

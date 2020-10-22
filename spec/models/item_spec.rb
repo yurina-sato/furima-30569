@@ -28,22 +28,22 @@ RSpec.describe Item, type: :model do
       it 'imagesが空の場合は出品できない' do
         @item.images = nil
         @item.valid?
-        expect(@item.errors.full_messages).to include("出品画像を入力してください")
+        expect(@item.errors.full_messages).to include('出品画像を入力してください')
       end
       it 'nameが空の場合は出品できない' do
         @item.name = nil
         @item.valid?
-        expect(@item.errors.full_messages).to include("商品名を入力してください")
+        expect(@item.errors.full_messages).to include('商品名を入力してください')
       end
       it 'textが空の場合は出品できない' do
         @item.text = nil
         @item.valid?
-        expect(@item.errors.full_messages).to include("商品の説明を入力してください")
+        expect(@item.errors.full_messages).to include('商品の説明を入力してください')
       end
       it 'priceが空の場合は出品できない' do
         @item.price = nil
         @item.valid?
-        expect(@item.errors.full_messages).to include("販売価格を入力してください")
+        expect(@item.errors.full_messages).to include('販売価格を入力してください')
       end
       it 'priceが300未満の場合は出品できない' do
         @item.price = 299

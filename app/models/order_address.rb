@@ -9,7 +9,7 @@ class OrderAddress
     validates :city, :house_number, :token, :item_id, :user_id
     validates :phone_number, numericality: { with: /\A\d{10,11}\z/, message: 'は半角数字で入力してください' } # 電話番号(半角・ハイフンなし)
   end
-  validates :phone_number, length: {maximum: 11, message: 'は11桁以内で入力してください'} # 電話番号(11桁以内)
+  validates :phone_number, length: { maximum: 11, message: 'は11桁以内で入力してください' } # 電話番号(11桁以内)
 
   def save
     order = Order.create(item_id: item_id, user_id: user_id)

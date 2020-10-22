@@ -12,7 +12,7 @@ class OrdersController < ApplicationController
     if @order_address.valid?
       pay_item
       @order_address.save
-      redirect_to root_path, notice: "購入手続きが完了しました。"
+      redirect_to root_path, notice: '購入手続きが完了しました。'
     else
       render action: :index
     end
