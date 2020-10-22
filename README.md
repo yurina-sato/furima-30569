@@ -15,6 +15,8 @@
 - has_many :items
 - has_many :orders
 - has_many :comments
+- has_many :likes
+
 
 
 ## itemsテーブル
@@ -40,6 +42,7 @@
 - belongs_to_active_hash :day
 - belongs_to_active_hash :delivery_charge
 - has_many :comments
+- has_many :likes
 
 
 ## ordersテーブル
@@ -70,7 +73,7 @@
 - belongs_to_active_hash :prefecture
 
 
-## 【追加実装】commentsテーブル
+## 【追加実装】 commentsテーブル
 | Column | Type       | Options                        |
 | ------ | ---------- | ------------------------------ |
 | text   | text       | null: false                    |
@@ -80,3 +83,15 @@
 ### Association
 - belongs_to :item
 - belongs_to :user
+
+
+## 【追加実装】 likesテーブル
+| Column | Type       | Options                        |
+| ------ | ---------- | ------------------------------ |
+| item   | references | null: false, foreign_key: true |
+| user   | references | null: false, foreign_key: true |
+
+### Association
+- belongs_to :item
+- belongs_to :user
+- validates_uniqueness_of :item_id, scope: :user_id
