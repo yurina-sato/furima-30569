@@ -84,7 +84,7 @@
         <%# お気に入り登録の有無で表示を分岐 %>
         <% if user_signed_in? && Like.find_by(user_id: current_user.id, item_id: @item.id) %> 
           <%= image_tag "star.png" ,class:"favorite-star-icon" ,width:"20",height:"20"%>
-          <%= link_to "お気に入りから削除", item_like_path(@item), method: :delete %>
+          <%= link_to "お気に入りから削除", item_like_path(@item, @item.likes), method: :delete %>
         <% else %>
           <%= image_tag "star.png" ,class:"favorite-star-icon" ,width:"20",height:"20"%>
           <%= link_to "お気に入り", item_likes_path(@item, @like), method: :post %>
@@ -117,10 +117,19 @@
       <h4>【コメント一覧】</h4>
       <% if @comments %>
         <% @comments.each do |comment| %>
-          <p>
-            <strong><%= comment.user.nickname %>：</strong>
-             <%= comment.text %>
-          </p>
+          <div class="comment">
+            <div class="upper-comment">
+              <div class="comment-user">
+                <strong><%= comment.user.nickname %>：</strong>
+              </div>
+              <div class="comment-date">
+                <%= l comment.created_at %>
+              </div>
+            </div>
+            <div class="comment-text">
+              <%= comment.text %>
+            </div>
+          </div>
         <% end %>
       <% end %>
     </div>  
