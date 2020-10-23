@@ -1,0 +1,35 @@
+<% items.each do |item| %>
+  <li class='list'>
+    <%= link_to item_path(item.id) do %>
+      <div class='item-img-content'>
+        <%# 1枚目の画像のみ表示, S3移行前の画像はno_images.pngに差し替え %>
+        <% if item.images.attached? && item.images.count > 0 %>
+          <%= image_tag item.images.first, class:'item-img' %>
+        <% else %>
+          <%= image_tag 'no_images.png', class: 'item-img' %>
+        <% end %>
+
+        <%# 商品が売れている場合 %>
+        <% if item.order != nil  %>
+          <div class='sold-out'>
+            <span>Sold Out!!</span>
+          </div>
+        <% end %>  
+      </div>
+      <div class='item-info'>
+        <h3 class='item-name'>
+          <%= item.name %>
+        </h3>
+        <div class='item-price'>
+          <span><%= item.price %>円<br>(税込み)</span>
+          <%# お気に入り登録数を表示 %>
+          <div class='star-btn'>
+            <%= image_tag "star.png", class:"star-icon" %>
+            <span class='star-count'><%= item.likes.count %></span>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </li>
+<% end %> 
+

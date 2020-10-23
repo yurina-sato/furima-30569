@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :items
   has_many :orders
   has_many :comments
+  has_many :likes
 
   with_options presence: true do
     validates :nickname, :birth_date
@@ -19,5 +20,9 @@ class User < ApplicationRecord
 
     FULL_WIDTH_KATAKANA =  /\A[ァ-ヶー－]+\z/.freeze # 全角カタカナの正規表現
     validates :first_name_kana, :last_name_kana, format: { with: FULL_WIDTH_KATAKANA, message: 'は全角(カナ)で入力してください' }
+  end
+
+  def already_liked?(item) # ユーザーが商品に対して、すでにお気に入り登録をしているのかどうかを判定
+    likes.exists?(item_id: item.id)
   end
 end

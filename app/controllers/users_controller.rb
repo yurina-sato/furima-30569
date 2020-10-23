@@ -6,10 +6,10 @@ class UsersController < ApplicationController
   def show # マイページ機能
     @search = Item.ransack(params[:q])
     @items = Item.all.includes(:user).order('created_at DESC')
-
     @comments = @user.comments
     @my_items = @user.items.order('created_at DESC') # 出品した商品
     @comment_items = @items.joins(:comments).distinct.where(comments: { user_id: @user.id }).order('created_at DESC') # コメントした商品
+    @like_items = @items.joins(:likes).distinct.where(likes: { user_id: @user.id }).order('created_at DESC') # お気に入り登録した商品
   end
 
   private

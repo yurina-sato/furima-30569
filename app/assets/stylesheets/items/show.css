@@ -114,17 +114,24 @@
   border-radius: 40px;
   width: 15vw;
   min-width: 200px;
-  color: rgb(249, 75, 0);
+  
   border: 2px solid #ffb340;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 20px;
+  background-color: white;
 }
 
 .favorite-star-icon {
   margin-right: 5px;
 }
+
+/* 追加実装 */
+.favorite-btn a {
+  color: rgb(249, 75, 0);
+}
+/* //追加実装 */
 
 .report-btn {
   border-radius: 40px;
@@ -142,7 +149,6 @@
 .report-flag-icon {
   margin-right: 5px;
 }
-
 
 /* /商品の概要 */
 
@@ -184,7 +190,7 @@
   min-width: 150px;
   font-size: 18px;
   border-radius: 100px;
-  margin-bottom: 2vh;
+  margin: 10px 0 2vh 0;
 }
 
 .comment-flag {
@@ -193,7 +199,7 @@
 }
 
 .comment-flag-icon {
-  margin: 10px 5px 0 0;
+  margin: 0 5px 0 0;
 }
 
 .links {
