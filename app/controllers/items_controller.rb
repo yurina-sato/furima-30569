@@ -40,7 +40,7 @@ class ItemsController < ApplicationController
     if @item.destroy
       redirect_to root_path, notice: '商品を削除しました。'
     else
-      flash[:alart] = '商品を削除できませんでした。'
+      flash.now[:alart] = '商品を削除できませんでした。'
       render :show
     end
   end

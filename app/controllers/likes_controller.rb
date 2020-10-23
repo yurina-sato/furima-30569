@@ -9,7 +9,7 @@ class LikesController < ApplicationController
       @search = Item.ransack(params[:q])
       @item = Item.find(params[:item_id])
       @comments = @item.comments
-      flash[:alart] = 'お気に入りに登録できませんでした。'
+      flash.now[:alart] = 'お気に入りに登録できませんでした。'
       render 'items/show'
     end
   end
@@ -20,9 +20,10 @@ class LikesController < ApplicationController
       redirect_to item_path(like_params[:item_id]), notice: 'お気に入りから削除しました。'
     else
       @search = Item.ransack(params[:q])
-      @item = Item.find(like_params[:item_id])
+      # @item = Item.find(like_params[:item_id])
+      @item = Item.find(params[:id])
       @comments = @item.comments
-      flash[:alart] = 'お気に入りから削除できませんでした。'
+      flash.now[:alart] = 'お気に入りから削除できませんでした。'
       render 'items/show'
     end
   end

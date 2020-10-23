@@ -13,7 +13,7 @@ module Furima30569
 
     # 日本語の言語設定
    config.i18n.default_locale = :ja
-   
+   config.time_zone = 'Tokyo'
    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.yml').to_s]
 
     # Settings in config/environments/* take precedence over those specified here.

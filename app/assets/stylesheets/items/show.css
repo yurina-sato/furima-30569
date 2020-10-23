@@ -159,19 +159,25 @@
   text-align: center;
 }
 
-.comment-text {
-  width: 100%;
-  height: 100px;
-  padding: 10px;
-  border: solid 2px #dedede;
-  resize: none;
+/* 追加実装 */
+.comment { 
+  text-align: left;
+  margin: 0 20px;
 }
 
-/* 追加実装 */
-.comments p{ 
-  text-align: left;
-  margin: 0 20px 1rem 20px;
+.upper-comment {
+  display: flex;
 }
+
+.comment-date {
+  color: #999;
+}
+
+.comment-text {
+  width: 100%;
+  padding: 10px;
+}
+
 /* //追加実装 */
 
 .comment-warn {
