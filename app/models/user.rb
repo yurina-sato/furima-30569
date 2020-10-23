@@ -23,6 +23,6 @@ class User < ApplicationRecord
   end
 
   def already_liked?(item) # ユーザーが商品に対して、すでにお気に入り登録をしているのかどうかを判定
-    self.likes.exists?(item_id: item.id)
+    likes.exists?(item_id: item.id)
   end
 end
