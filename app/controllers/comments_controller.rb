@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
       @search = Item.ransack(params[:q])
       @item = Item.find(params[:item_id])
       @comments = @item.comments
-      flash[:alart] = 'コメント文を入力してください'
+      flash.now[:alart] = 'コメント文を入力してください'
       render 'items/show'
     end
   end
