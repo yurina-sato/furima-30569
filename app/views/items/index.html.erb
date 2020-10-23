@@ -120,42 +120,9 @@
     <h2 class='title'>ピックアップカテゴリー</h2>
     <%= link_to '新規投稿商品', "#", class: "subtitle" %>
     <ul class='item-lists'>
-
-      <% @items.each do |item| %>
-        <li class='list'>
-          <%= link_to item_path(item.id) do %>
-            <div class='item-img-content'>
-              <%# 1枚目の画像のみ表示, S3移行前の画像はno_images.pngに差し替え %>
-              <% if item.images.attached? && item.images.count > 0 %>
-                <%= image_tag item.images.first, class:'item-img' %>
-              <% else %>
-                <%= image_tag 'no_images.png', class: 'item-img' %>
-              <% end %>
-
-              <%# 商品が売れている場合 %>
-              <% if item.order != nil  %>
-                <div class='sold-out'>
-                  <span>Sold Out!!</span>
-                </div>
-              <% end %>  
-
-            </div>
-            <div class='item-info'>
-              <h3 class='item-name'>
-                <%= item.name %>
-              </h3>
-              <div class='item-price'>
-                <span><%= item.price %>円<br>(税込み)</span>
-                <div class='star-btn'>
-                 <%= image_tag "star.png", class:"star-icon" %>
-                  <span class='star-count'>0</span>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </li>
-       <% end %> 
-
+      <%# 全商品の一覧 %>
+      <%= render partial: "shared/item_lists", locals: { items: @items } %>
+      
       <%# 商品がない場合のダミー %>
       <% if @items == nil %>
         <li class='list'>
@@ -169,7 +136,7 @@
                 <span>99999999円<br>(税込み)</span>
                 <div class='star-btn'>
                   <%= image_tag "star.png", class:"star-icon" %>
-                  <span class='star-count'>0</span>
+                  <span class='star-count'><%= item.likes.count %></span>
                 </div>
               </div>
             </div>
