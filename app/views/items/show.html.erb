@@ -80,10 +80,16 @@
       </tbody>
     </table>
     <div class="option">
-      <div class="favorite-btn">
-        <%= image_tag "star.png" ,class:"favorite-star-icon" ,width:"20",height:"20"%>
-        <span>お気に入り 0</span>
-      </div>
+      <button class="favorite-btn">
+        <%# お気に入り登録の有無で表示を分岐 %>
+        <% if user_signed_in? && Like.find_by(user_id: current_user.id, item_id: @item.id) %> 
+          <%= image_tag "star.png" ,class:"favorite-star-icon" ,width:"20",height:"20"%>
+          <%= link_to "お気に入りから削除", item_like_path(@item), method: :delete %>
+        <% else %>
+          <%= image_tag "star.png" ,class:"favorite-star-icon" ,width:"20",height:"20"%>
+          <%= link_to "お気に入り", item_likes_path(@item, @like), method: :post %>
+        <% end %>
+      </button>
       <div class="report-btn">
         <%= image_tag "flag.png" ,class:"report-flag-icon" ,width:"20",height:"20"%>
         <span>不適切な商品の通報</span>
