@@ -11,6 +11,7 @@ class ItemsController < ApplicationController
   def show
     @comment = Comment.new
     @comments = @item.comments.includes(:user)
+    @like = Like.new
   end
 
   def new
@@ -39,6 +40,7 @@ class ItemsController < ApplicationController
     if @item.destroy
       redirect_to root_path, notice: '商品を削除しました。'
     else
+      flash[:alart] = '商品を削除できませんでした。'
       render :show
     end
   end
