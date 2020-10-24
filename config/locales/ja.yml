@@ -7,6 +7,7 @@ ja:
       user: ユーザ
       item: 商品
       comment: コメント
+      like: お気に入り
     attributes:
       user:
         nickname: ニックネーム
@@ -28,6 +29,11 @@ ja:
         user: 購入ユーザ
       comment:
         text: コメント文
+        user: コメントユーザ
+        item: 商品
+      like:
+        user: お気に入り登録ユーザ
+        item: 商品
     errors:
       messages:
         full-width_characters: "は全角(漢字・かな・カナ)で入力してください"
