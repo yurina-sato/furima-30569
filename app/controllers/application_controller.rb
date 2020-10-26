@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :basic_auth
+  before_action :basic_auth if Rails.env.production? # テスト時はbasic認証を行わないように分岐
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   private
