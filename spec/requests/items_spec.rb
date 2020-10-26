@@ -30,6 +30,12 @@ RSpec.describe ItemsController, type: :request do
       get root_path
       expect(response.body).to include "キーワードから検索する"    
     end
+    it 'indexアクションにリクエストすると、商品が売却済みの場合はSold Out!!が表示されている' do
+      buy_user = FactoryBot.create(:user) # 出品者とは異なる購入userを作成
+      order = Order.create(item_id: @item.id, user_id: buy_user.id) # @itemを売却済みの状態にする
+      get root_path
+      expect(response.body).to include "Sold Out!!"
+    end
   end
 
   describe "GET #show" do
@@ -87,6 +93,12 @@ RSpec.describe ItemsController, type: :request do
     it "showアクションにリクエストするとレスポンスに商品検索フォームが存在する" do 
       get item_path(@item.id)
       expect(response.body).to include "キーワードから検索する"    
+    end
+    it 'showアクションにリクエストすると、商品が売却済みの場合はSold Out!!が表示されている' do
+      buy_user = FactoryBot.create(:user) # 出品者とは異なる購入userを作成
+      order = Order.create(item_id: @item.id, user_id: buy_user.id) # @itemを売却済みの状態にする
+      get item_path(@item.id)
+      expect(response.body).to include "Sold Out!!"
     end
   end
 
