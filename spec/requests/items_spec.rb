@@ -83,6 +83,10 @@ RSpec.describe ItemsController, type: :request do
       get item_path(@item.id)
       expect(response.body).to include @item.day.name
     end
+    it 'showアクションをリクエストすると、お気に入り登録のボタンが表示されている' do
+      get item_path(@item.id)
+      expect(response.body).to include "お気に入り"    
+    end
     it "showアクションにリクエストすると、出品済み商品へのコメントが存在する場合は表示されている" do 
       comment = FactoryBot.create(:comment, item_id: @item.id)
       get item_path(@item.id)
@@ -304,12 +308,12 @@ RSpec.describe ItemsController, type: :request do
         @invalid_item_params = {id: nil} # 不正なパラメータ
       end
 
-      it 'destroyアクションをリクエストすると、正常に商品を編集できる' do
+      it 'destroyアクションをリクエストすると、正常に商品を削除できる' do
         expect do
           delete item_path(@item.id), params: { id: @item.id }
         end.to change{ Item.count }.by(-1)
       end
-      it 'destroyアクションをリクエストすると、正常に出品できた場合はトップページへリダイレクトする' do
+      it 'destroyアクションをリクエストすると、正常に削除できた場合はトップページへリダイレクトする' do
         delete item_path(@item.id), params: { id: @item.id }
         expect(response).to redirect_to root_path
       end
