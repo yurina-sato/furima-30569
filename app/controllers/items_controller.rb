@@ -1,8 +1,8 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :set_search, only: [:index, :show]
-  before_action :move_to_index, only: [:edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show, :search]
+  before_action :move_to_index, only: [:edit, :update, :destroy]
 
   def index
     @items = Item.all.includes(:user).order('created_at DESC')
@@ -40,8 +40,8 @@ class ItemsController < ApplicationController
     if @item.destroy
       redirect_to root_path, notice: '商品を削除しました。'
     else
-      flash.now[:alart] = '商品を削除できませんでした。'
-      render :show
+      flash.now[:alart] = '削除できない商品です。'
+      redirect_to root_path
     end
   end
 
