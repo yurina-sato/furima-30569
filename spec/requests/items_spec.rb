@@ -335,7 +335,7 @@ RSpec.describe ItemsController, type: :request do
   end
 
   describe "DELETE #destroy" do
-    def delete_item(item_id, item_id_params) # basic認証と一緒に送るパラメータ
+    def delete_item(item_id, item_id_params) # basic認証と一緒に送るパラメータ ※不正パラメータで別item_idを送ることになるので引数2つ設定
       username = ENV['FURIMA_BASIC_AUTH_USER']
       password = ENV['FURIMA_BASIC_AUTH_PASSWORD']
       delete item_path(item_id), headers: { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(username, password) },
