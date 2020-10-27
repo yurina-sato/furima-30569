@@ -78,7 +78,6 @@ RSpec.describe LikesController, type: :request do
       it 'destroyアクションをリクエストすると、正常にお気に入り登録を削除できる' do
         expect do
           delete_likes(@item.id, @like.id, @item.id)
-          # delete item_like_path(@item.id, @like.id), params: { id: @item.id }
         end.to change{ Like.count }.by(-1)
       end
       it 'destroyアクションをリクエストすると、正常にお気に入り登録を削除できた場合は商品詳細ページへリダイレクトする' do
