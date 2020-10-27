@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :orders
   has_many :comments
   has_many :likes
+  has_many :liked_items, through: :likes, source: :item # Likeを経由してItemと多対多になる
 
   with_options presence: true do
     validates :nickname, :birth_date
