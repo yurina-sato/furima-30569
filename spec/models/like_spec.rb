@@ -16,13 +16,12 @@ RSpec.describe Like, type: :model do
       it 'userが紐付いてない場合はお気に入り登録ができない' do
         @like.user = nil
         @like.valid?
-        expect(@like.errors.full_messages).to include("お気に入り登録ユーザを入力してください")
-
+        expect(@like.errors.full_messages).to include('お気に入り登録ユーザを入力してください')
       end
       it 'itemが紐付いてない場合はお気に入り登録ができない' do
         @like.item = nil
         @like.valid?
-        expect(@like.errors.full_messages).to include("商品を入力してください")
+        expect(@like.errors.full_messages).to include('商品を入力してください')
       end
     end
   end

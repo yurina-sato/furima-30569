@@ -6,7 +6,6 @@ class Item < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liked_users, through: :likes, source: :user # Likeを経由してUserと多対多になる
 
-
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to_active_hash :status
   belongs_to_active_hash :category
