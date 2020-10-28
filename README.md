@@ -16,7 +16,7 @@
 - has_many :orders
 - has_many :comments
 - has_many :likes
-
+- has_many :liked_items, through: :likes, source: :item
 
 
 ## itemsテーブル
@@ -41,9 +41,9 @@
 - belongs_to_active_hash :prefecture
 - belongs_to_active_hash :day
 - belongs_to_active_hash :delivery_charge
-- has_many :comments
-- has_many :likes
-
+- has_many :comments, dependent: :destroy
+- has_many :likes, dependent: :destroy
+- has_many :liked_users, through: :likes, source: :user
 
 ## ordersテーブル
 | Column | Type       | Options                        |
