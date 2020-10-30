@@ -35,7 +35,7 @@
 ### Association
 - belongs_to :user
 - has_one :order
-- has_one_attached :image
+- has_many_attached :images
 - belongs_to_active_hash :status
 - belongs_to_active_hash :category
 - belongs_to_active_hash :prefecture
