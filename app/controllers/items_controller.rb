@@ -5,7 +5,7 @@ class ItemsController < ApplicationController
   before_action :move_to_index, only: [:edit, :update, :destroy]
 
   def index
-    @items = Item.all.includes(:user).order('created_at DESC')
+    @items = Item.with_attached_images.includes(:order, :likes, :user).order('created_at DESC') # N+1問題対策
   end
 
   def show
