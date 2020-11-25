@@ -25,6 +25,15 @@ RSpec.describe '商品出品', type: :system do
       # 商品出品ページに移動する
       visit new_item_path
       # フォームに情報を入力する
+      attach_file '出品画像', "#{Rails.root}/public/images/test_image.png"
+      fill_in '商品名', with: @item.name
+      fill_in '商品の説明', with: @item.text
+      select Category.find(@item.category_id).name, from: 'item-category' # カテゴリー
+      select Status.find(@item.status_id).name, from: 'item-sales-status' # 商品の状態
+      select DeliveryCharge.find(@item.delivery_charge_id).name, from: 'item-shipping-fee-status' # 配送料の負担
+      select Prefecture.find(@item.prefecture_id).name, from: 'item-prefecture' # 発送元の地域
+      select Day.find(@item.day_id).name, from: 'item-scheduled-delivery' # 発送までの日数
+      fill_in '価格', with: @item.price
 
       # 送信するとItemモデルのカウントが1上がることを確認する
       expect{
@@ -35,7 +44,7 @@ RSpec.describe '商品出品', type: :system do
       # 「出品が完了しました」の文字があることを確認する
       expect(page).to have_content('出品が完了しました。')
       # トップページには先ほど出品した商品が存在することを確認する（画像）
-
+      expect(page).to have_selector 'img.item-img'
       # トップページには先ほど出品した商品が存在することを確認する（商品名）
       expect(page).to have_content(@item.name)
       # トップページには先ほど出品した商品が存在することを確認する（価格）
