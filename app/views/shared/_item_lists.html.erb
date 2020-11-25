@@ -3,7 +3,7 @@
     <%= link_to item_path(item.id) do %>
       <div class='item-img-content'>
         <%# 1枚目の画像のみ表示, S3移行前の画像はno_images.pngに差し替え %>
-        <% if item.images.attached? && item.images.count > 0 %>
+        <% if item.images.attached? && item.images.size > 0 %>
           <%= image_tag item.images.first, class:'item-img' %>
         <% else %>
           <%= image_tag 'no_images.png', class: 'item-img' %>
@@ -25,7 +25,7 @@
           <%# お気に入り登録数を表示 %>
           <div class='star-btn'>
             <%= image_tag "star.png", class:"star-icon" %>
-            <span class='star-count'><%= item.likes.count %></span>
+            <span class='star-count'><%= item.likes.size %></span>
           </div>
         </div>
       </div>
