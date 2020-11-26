@@ -96,16 +96,29 @@ RSpec.describe '商品編集', type: :system do
   context '商品編集ができないとき' do
     it 'ログインしたユーザーは自分以外が出品した商品の編集画面には遷移できない' do
       # 商品1を出品したユーザーでログインする
+      basic_pass new_user_session_path
+      fill_in 'メールアドレス', with: @item1.user.email
+      fill_in 'パスワード', with: @item1.user.password
+      find('input[name="commit"]').click
+      expect(current_path).to eq root_path
       # 商品2の詳細ページへ移動する
+      visit item_path(@item2.id)
       # 商品2に「編集」ボタンがないことを確認する
+      expect(page).to have_no_link '商品の編集', href: edit_item_path(@item2.id)
     end
     it 'ログインしていないと商品編集ページに遷移できない' do
       # トップページに移動する
+      basic_pass root_path
       # 商品1の詳細ページへ移動する
+      visit item_path(@item1.id)
       # 商品1に「編集」ボタンがないことを確認する
+      expect(page).to have_no_link '商品の編集', href: edit_item_path(@item1.id)
       # トップページに移動する
+      visit root_path
       # 商品2の詳細ページへ移動する
+      visit item_path(@item2.id)
       # 商品2に「編集」ボタンがないことを確認する
+      expect(page).to have_no_link '商品の編集', href: edit_item_path(@item2.id)
     end
   end
 end
