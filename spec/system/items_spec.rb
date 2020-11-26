@@ -145,16 +145,29 @@ RSpec.describe '商品削除', type: :system do
   context '商品削除ができないとき' do
     it 'ログインしたユーザーは自分以外が出品した商品を削除できない' do
       # 商品1を出品したユーザーでログインする
+      basic_pass new_user_session_path
+      fill_in 'メールアドレス', with: @item1.user.email
+      fill_in 'パスワード', with: @item1.user.password
+      find('input[name="commit"]').click
+      expect(current_path).to eq root_path
       # 商品2の詳細ページへ移動する
+      visit item_path(@item2.id)
       # 商品2に「削除」ボタンがないことを確認する
+      expect(page).to have_no_link '削除', href: item_path(@item2.id)
     end
     it 'ログインしていないと商品削除ボタンがない' do
       # トップページに移動する
+      basic_pass root_path
       # 商品1の詳細ページへ移動する
+      visit item_path(@item1.id)
       # 商品1に「削除」ボタンがないことを確認する
+      expect(page).to have_no_link '削除', href: item_path(@item1.id)
       # トップページに移動する
+      visit root_path
       # 商品2の詳細ページへ移動する
+      visit item_path(@item2.id)
       # 商品2に「削除」ボタンがないことを確認する
+      expect(page).to have_no_link '削除', href: item_path(@item2.id)
     end
   end
 end
