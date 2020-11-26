@@ -132,14 +132,29 @@ RSpec.describe '商品削除', type: :system do
   context '商品削除ができるとき' do
     it 'ログインしたユーザーは自分が出品した商品の削除ができる' do
       # 商品1を出品したユーザーでログインする
+      basic_pass new_user_session_path
+      fill_in 'メールアドレス', with: @item1.user.email
+      fill_in 'パスワード', with: @item1.user.password
+      find('input[name="commit"]').click
+      expect(current_path).to eq root_path
       # 商品1の詳細ページへ移動する
+      visit item_path(@item1.id)
       # 商品1に「削除」ボタンがあることを確認する
+      expect(page).to have_link '削除', href: item_path(@item1.id)
       # 商品を削除するとItemモデルのカウントが1減ることを確認する
+      expect{
+        find_link('削除', href: item_path(@item1.id)).click
+      }.to change { Item.count }.by(-1)
       # トップページに遷移したことを確認する
+      expect(current_path).to eq root_path
       # 「商品を削除しました。」の文字があることを確認する
-      # トップページには先ほど削除した商品が存在しないことを確認する（画像）
+      expect(page).to have_content('商品を削除しました。')
+      # トップページには先ほど削除した商品が存在しないことを確認する（詳細ページへのリンク）
+      expect(page).to have_no_link href: item_path(@item1.id)
       # トップページには先ほど削除した商品が存在しないことを確認する（商品名）
+      expect(page).to have_no_content(@item1.name)
       # トップページには先ほど削除した商品が存在しないことを確認する（価格）
+      expect(page).to have_no_content(@item1.price)
     end
   end
   context '商品削除ができないとき' do
