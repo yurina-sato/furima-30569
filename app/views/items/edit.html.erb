@@ -74,7 +74,7 @@ app/assets/stylesheets/items/new.css %>
           配送料の負担
           <span class="indispensable">必須</span>
         </label>
-        <%= f.collection_select(:delivery_charge, DeliveryCharge.all, :id, :name, {selected: @item.delivery_charge_id}, {class:"select-box", id:"item-shipping-fee-status"}) %>
+        <%= f.collection_select(:delivery_charge_id, DeliveryCharge.all, :id, :name, {selected: @item.delivery_charge_id}, {class:"select-box", id:"item-shipping-fee-status"}) %>
         <label for="item-prefecture" class="weight-bold-text">
           発送元の地域
           <span class="indispensable">必須</span>
