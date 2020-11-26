@@ -54,9 +54,13 @@ RSpec.describe '商品出品', type: :system do
   context '商品出品ができないとき'do
     it 'ログインしていないと商品出品ページに遷移できない' do
       # トップページに遷移する
+      basic_pass root_path
       # 商品出品ページへのリンクがあることを確認する
+      expect(page).to have_content('出品する')
       # 商品出品ページに移動する
+      visit new_item_path
       # ログインページに遷移したことを確認する
+      expect(current_path).to eq new_user_session_path
     end
   end
 end
