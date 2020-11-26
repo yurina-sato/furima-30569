@@ -68,29 +68,77 @@ end
 RSpec.describe '商品編集', type: :system do
   before do
     @item1 = FactoryBot.create(:item)
+    @item1_edit = FactoryBot.build(:item)
     @item2 = FactoryBot.create(:item)
   end
   context '商品編集ができるとき' do
     it 'ログインしたユーザーは自分が出品した商品の編集ができる' do
       # 商品1を出品したユーザーでログインする
+      basic_pass new_user_session_path
+      fill_in 'メールアドレス', with: @item1.user.email
+      fill_in 'パスワード', with: @item1.user.password
+      find('input[name="commit"]').click
+      expect(current_path).to eq root_path
       # 商品1の詳細ページへ移動する
+      visit item_path(@item1.id)
       # 商品1に「編集」ボタンがあることを確認する
+      expect(page).to have_link '商品の編集', href: edit_item_path(@item1.id)
       # 編集ページへ遷移する
+      visit edit_item_path(@item1.id)
       # すでに出品済みの内容がフォームに入っていることを確認する
+      # expect(
+      #   find('.img-upload').value
+      # ).to eq @item1.images
+      expect(
+        find('#item-name').value
+      ).to eq @item1.name
+      expect(
+        find('#item-info').value
+      ).to eq @item1.text
+      expect(page).to have_select('カテゴリー', selected: Category.find(@item1.category_id).name)
+      expect(page).to have_select('商品の状態', selected: Status.find(@item1.status_id).name)
+      expect(page).to have_select('配送料の負担', selected: DeliveryCharge.find(@item1.delivery_charge_id).name)
+      expect(page).to have_select('発送元の地域', selected: Prefecture.find(@item1.prefecture_id).name)
+      expect(page).to have_select('発送までの日数', selected: Day.find(@item1.day_id).name)
+      expect(
+        find('#item-price').value
+      ).to eq @item1.price.to_s
       # 商品詳細を編集する
+      attach_file '出品画像', "#{Rails.root}/public/images/edit_test_image.png"
+      fill_in '商品名', with: @item1_edit.name
+      fill_in '商品の説明', with: @item1_edit.text
+      select Category.find(@item1_edit.category_id).name, from: 'item-category' # カテゴリー
+      select Status.find(@item1_edit.status_id).name, from: 'item-sales-status' # 商品の状態
+      select DeliveryCharge.find(@item1_edit.delivery_charge_id).name, from: 'item-shipping-fee-status' # 配送料の負担
+      select Prefecture.find(@item1_edit.prefecture_id).name, from: 'item-prefecture' # 発送元の地域
+      select Day.find(@item1_edit.day_id).name, from: 'item-scheduled-delivery' # 発送までの日数
+      fill_in '価格', with: @item1_edit.price
       # 編集してもItemモデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
       # 商品1の詳細ページへ遷移したことを確認する
+      expect(current_path).to eq item_path(@item1.id)
       # 「商品の編集が完了しました。」の文字があることを確認する
+      expect(page).to have_content('商品の編集が完了しました。')
       # 商品1の詳細ページには先ほど変更した内容が存在することを確認する（商品名）
+      expect(page).to have_content(@item1_edit.name)
       # 商品1の詳細ページには先ほど変更した内容が存在することを確認する（画像）
+      # expect('item-box-img').to eq @item1_edit.images
       # 商品1の詳細ページには先ほど変更した内容が存在することを確認する（価格）
+      expect(page).to have_content(@item1_edit.price)
       # 商品1の詳細ページには先ほど変更した内容が存在することを確認する（商品説明）
+      expect(page).to have_content(@item1_edit.text)
       # 商品1の詳細ページには先ほど変更した内容が存在することを確認する（カテゴリー）
+      expect(page).to have_content(Category.find(@item1_edit.category_id).name)
       # 商品1の詳細ページには先ほど変更した内容が存在することを確認する（商品の状態）
+      expect(page).to have_content(Status.find(@item1_edit.status_id).name)
       # 商品1の詳細ページには先ほど変更した内容が存在することを確認する（配送料の負担）
+      expect(page).to have_content(DeliveryCharge.find(@item1_edit.delivery_charge_id).name)
       # 商品1の詳細ページには先ほど変更した内容が存在することを確認する（発送元の地域）
+      expect(page).to have_content(Prefecture.find(@item1_edit.prefecture_id).name)
       # 商品1の詳細ページには先ほど変更した内容が存在することを確認する（発送日の目安）
-
+      expect(page).to have_content(Day.find(@item1_edit.day_id).name)
     end
   end
   context '商品編集ができないとき' do
