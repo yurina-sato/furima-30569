@@ -86,9 +86,7 @@ RSpec.describe '商品編集', type: :system do
       # 編集ページへ遷移する
       visit edit_item_path(@item1.id)
       # すでに出品済みの内容がフォームに入っていることを確認する
-      # expect(
-      #   find('.img-upload').value
-      # ).to eq @item1.images
+      expect(page).to have_selector 'img.item-img' # 画像プレビューが存在する
       expect(
         find('#item-name').value
       ).to eq @item1.name
@@ -124,7 +122,7 @@ RSpec.describe '商品編集', type: :system do
       # 商品1の詳細ページには先ほど変更した内容が存在することを確認する（商品名）
       expect(page).to have_content(@item1_edit.name)
       # 商品1の詳細ページには先ほど変更した内容が存在することを確認する（画像）
-      # expect('item-box-img').to eq @item1_edit.images
+      expect(page).to have_selector 'img.item-box-img' # 画像が存在する
       # 商品1の詳細ページには先ほど変更した内容が存在することを確認する（価格）
       expect(page).to have_content(@item1_edit.price)
       # 商品1の詳細ページには先ほど変更した内容が存在することを確認する（商品説明）
