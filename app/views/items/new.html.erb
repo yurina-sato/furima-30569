@@ -23,11 +23,9 @@
       </div>
       <%# 画像プレビュー %>
       <div id="image-list"></div> 
-      <%# <% if @item.images != nil %> 
         <% @item.images.each do |image| %>
           <%= image_tag image, class: 'item-img' %>
         <% end %>
-      <%# end %> 
     </div>
 
     <%# 商品名と商品説明 %>
