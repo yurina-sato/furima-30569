@@ -1,9 +1,52 @@
 require 'rails_helper'
 
-RSpec.describe "Likes", type: :system do
+def basic_pass(path) # basic認証
+  username = ENV['FURIMA_BASIC_AUTH_USER']
+  password = ENV['FURIMA_BASIC_AUTH_PASSWORD']
+  visit "http://#{username}:#{password}@#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}#{path}"
+end
+
+RSpec.describe "お気に入り登録", type: :system do
   before do
-    driven_by(:rack_test)
+    @user = FactoryBot.create(:user)
+    @item = FactoryBot.create(:item)
   end
 
-  pending "add some scenarios (or delete) #{__FILE__}"
+  it 'ログインしたユーザーは商品詳細ページでお気に入り登録ができる' do
+    # ログインする
+    basic_pass new_user_session_path
+    fill_in 'メールアドレス', with: @user.email
+    fill_in 'パスワード', with: @user.password
+    find('input[name="commit"]').click
+    expect(current_path).to eq root_path
+    # 商品詳細ページに遷移する
+    visit item_path(@item.id)
+    # 詳細ページ上にお気に入り登録ボタンが存在することを確認する
+    expect(page).to have_link 'お気に入り', href: item_likes_path(@item.id)
+    # お気に入りボタンをクリックすると、Likeモデルのカウントが1上がることを確認する
+    expect{
+      find_link('お気に入り', href: item_likes_path(@item.id)).click
+    }.to change { Like.count }.by(1)
+    # 「お気に入りに登録しました。」の文字があることを確認する
+    expect(page).to have_content('お気に入りに登録しました。')
+    # 詳細ページ上にお気に入り解除ボタンが存在することを確認する
+    expect(page).to have_content('お気に入りから削除')
+  end
+
+  it 'ログインしていないと商品詳細ページでお気に入り登録ができない' do
+    # トップページに移動する
+    # basic_pass root_path
+    # 商品詳細ページに遷移する
+    # visit item_path(@item.id)
+    # 詳細ページ上にお気に入り登録ボタンが存在することを確認する
+    # expect(page).to have_link 'お気に入り', href: item_likes_path(@item.id)
+    # お気に入りボタンをクリックする
+
+    # ログインページに遷移したことを確認する
+    # expect(current_path).to eq new_user_session_path
+  end
+end
+
+RSpec.describe "お気に入り解除", type: :system do
+
 end
