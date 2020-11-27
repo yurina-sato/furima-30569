@@ -37,8 +37,11 @@ RSpec.describe "コメント投稿", type: :system do
   end
   it 'ログインしていないと商品詳細ページでコメント投稿ができない' do
     # トップページに移動する
+    basic_pass root_path
     # 商品詳細ページに遷移する
+    visit item_path(@item.id)
     # 商品詳細ページにコメント投稿フォームがないことを確認する
+    expect(page).to have_no_selector 'textarea.comment[text]' # 投稿フォーム
   end
 
 end
