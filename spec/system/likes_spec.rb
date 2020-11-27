@@ -35,15 +35,15 @@ RSpec.describe "お気に入り登録", type: :system do
 
   it 'ログインしていないと商品詳細ページでお気に入り登録ができない' do
     # トップページに移動する
-    # basic_pass root_path
+    basic_pass root_path
     # 商品詳細ページに遷移する
-    # visit item_path(@item.id)
+    visit item_path(@item.id)
     # 詳細ページ上にお気に入り登録ボタンが存在することを確認する
-    # expect(page).to have_link 'お気に入り', href: item_likes_path(@item.id)
+    expect(page).to have_link 'お気に入り', href: item_likes_path(@item.id)
     # お気に入りボタンをクリックする
-
+    click_link 'お気に入り'
     # ログインページに遷移したことを確認する
-    # expect(current_path).to eq new_user_session_path
+    expect(current_path).to eq new_user_session_path
   end
 end
 
