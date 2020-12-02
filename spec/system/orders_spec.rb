@@ -1,11 +1,5 @@
 require 'rails_helper'
 
-def basic_pass(path) # basic認証
-  username = ENV['FURIMA_BASIC_AUTH_USER']
-  password = ENV['FURIMA_BASIC_AUTH_PASSWORD']
-  visit "http://#{username}:#{password}@#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}#{path}"
-end
-
 RSpec.describe "商品購入", type: :system do
   def payjp_test # Payjp処理をモックでダミー化
     payjp_charge = double('Payjp::Charge')
@@ -21,11 +15,7 @@ RSpec.describe "商品購入", type: :system do
   context '商品購入ができるとき'do
     it 'ログインしたユーザーは商品購入ができる' do
       # ログインする
-      basic_pass new_user_session_path
-      fill_in 'メールアドレス', with: @user.email
-      fill_in 'パスワード', with: @user.password
-      find('input[name="commit"]').click
-      expect(current_path).to eq root_path
+      sign_in(@user)
       # 商品詳細ページに移動する
       visit item_path(@item.id)
       # 商品詳細ページに遷移する
@@ -58,12 +48,7 @@ RSpec.describe "商品購入", type: :system do
       @sold_order = FactoryBot.create(:order, item_id:@sold_item.id) # 売却済みの購入情報
 
       # ログインする
-      basic_pass new_user_session_path
-      fill_in 'メールアドレス', with: @user.email
-      fill_in 'パスワード', with: @user.password
-      find('input[name="commit"]').click
-      expect(current_path).to eq root_path
-      # 商品詳細ページに移動する
+      sign_in(@user)
       visit item_path(@sold_item.id)
       # 商品詳細ページに「購入」ボタンがないことを確認する
       expect(page).to have_no_link '購入画面に進む', href: item_orders_path(@sold_item.id)
@@ -72,11 +57,7 @@ RSpec.describe "商品購入", type: :system do
       @sell_item = FactoryBot.create(:item, user_id: @user.id) # 自身の出品商品
 
       # ログインする
-      basic_pass new_user_session_path
-      fill_in 'メールアドレス', with: @user.email
-      fill_in 'パスワード', with: @user.password
-      find('input[name="commit"]').click
-      expect(current_path).to eq root_path
+      sign_in(@user)
       # 商品詳細ページに移動する
       visit item_path(@sell_item.id)
       # 商品詳細ページに「購入」ボタンがないことを確認する
