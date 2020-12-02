@@ -17,10 +17,6 @@ RSpec.describe "商品購入", type: :system do
     @user = FactoryBot.create(:user)
     @item = FactoryBot.create(:item)
     @order_address = FactoryBot.build(:order_address, user_id: @user.id, item_id: @item.id)
-
-    @sold_item = FactoryBot.create(:item) # 売却済み商品用
-    @sold_order = FactoryBot.create(:order, item_id:@sold_item.id) # 売却済みの購入情報
-    @sell_item = FactoryBot.create(:item, user_id: @user.id) # 自身の出品商品
   end
   context '商品購入ができるとき'do
     it 'ログインしたユーザーは商品購入ができる' do
@@ -45,23 +41,22 @@ RSpec.describe "商品購入", type: :system do
       fill_in '番地', with: @order_address.house_number
       fill_in '建物名', with: @order_address.building
       fill_in '電話番号', with: @order_address.phone_number
-      # 送信するとOrderモデルのカウントが1上がることを確認する
-      # binding.pry
-      payjp_test
+      # 購入ボタンをクリックする
+      payjp_test # Payjpのモックを用意
       find('input[name="commit"]').click
-      # expect(Order.count).to eq 2
-      # expect{
-      # }.to change { Order.count }.by(1)
-
-      # トップページへ遷移したことを確認する
-      # binding.pry
-      # expect(current_path).to eq root_path
-      # 「購入手続きが完了しました。」の文字があることを確認する
-      expect(page).to have_content('購入手続きが完了しました。')
+      # トップページへ遷移し、「購入手続きが完了しました。」の文字があることを確認する
+      expect(page).to have_content('購入手続きが完了しました。') # 先にhave_contentすることでリダイレクト処理を完了させる
+      expect(current_path).to eq root_path
+      # Orderモデルのカウントが1上がっていることを確認する
+      expect(Order.count).to eq 1 
+      
     end
   end
   context '商品購入ができないとき'do
     it '売却済みの商品は購入ページに遷移できない' do
+      @sold_item = FactoryBot.create(:item) # 売却済み商品用
+      @sold_order = FactoryBot.create(:order, item_id:@sold_item.id) # 売却済みの購入情報
+
       # ログインする
       basic_pass new_user_session_path
       fill_in 'メールアドレス', with: @user.email
@@ -74,6 +69,8 @@ RSpec.describe "商品購入", type: :system do
       expect(page).to have_no_link '購入画面に進む', href: item_orders_path(@sold_item.id)
     end
     it '自身が出品した商品は購入ページに遷移できない' do
+      @sell_item = FactoryBot.create(:item, user_id: @user.id) # 自身の出品商品
+
       # ログインする
       basic_pass new_user_session_path
       fill_in 'メールアドレス', with: @user.email
