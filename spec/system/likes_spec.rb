@@ -1,11 +1,5 @@
 require 'rails_helper'
 
-def basic_pass(path) # basic認証
-  username = ENV['FURIMA_BASIC_AUTH_USER']
-  password = ENV['FURIMA_BASIC_AUTH_PASSWORD']
-  visit "http://#{username}:#{password}@#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}#{path}"
-end
-
 RSpec.describe "お気に入り登録", type: :system do
   before do
     @user = FactoryBot.create(:user)
@@ -14,11 +8,7 @@ RSpec.describe "お気に入り登録", type: :system do
 
   it 'ログインしたユーザーは商品詳細ページでお気に入り登録ができる' do
     # ログインする
-    basic_pass new_user_session_path
-    fill_in 'メールアドレス', with: @user.email
-    fill_in 'パスワード', with: @user.password
-    find('input[name="commit"]').click
-    expect(current_path).to eq root_path
+    sign_in(@user)
     # 商品詳細ページに遷移する
     visit item_path(@item.id)
     # 詳細ページ上にお気に入り登録ボタンが存在することを確認する
@@ -58,11 +48,7 @@ RSpec.describe "お気に入り削除", type: :system do
   context 'お気に入り削除ができるとき' do
     it 'ログインしたユーザーはお気に入り登録した商品の詳細ページでお気に入り削除ができる' do
       # ログインする
-      basic_pass new_user_session_path
-      fill_in 'メールアドレス', with: @user.email
-      fill_in 'パスワード', with: @user.password
-      find('input[name="commit"]').click
-      expect(current_path).to eq root_path
+      sign_in(@user)
       # 商品詳細ページに遷移する
       visit item_path(@item.id)
       # 詳細ページ上にお気に入り登録ボタンが存在することを確認する
@@ -89,11 +75,7 @@ RSpec.describe "お気に入り削除", type: :system do
     end
     it 'ログインユーザーは商品詳細ページで他ユーザーのお気に入り削除ができない' do
       # 別ユーザーでログインする
-      basic_pass new_user_session_path
-      fill_in 'メールアドレス', with: @another_user.email
-      fill_in 'パスワード', with: @another_user.password
-      find('input[name="commit"]').click
-      expect(current_path).to eq root_path
+      sign_in(@another_user)
       # 商品詳細ページに遷移する
       visit item_path(@item.id)
       # 詳細ページ上にお気に入り登録ボタンが存在することを確認する
