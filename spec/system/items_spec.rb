@@ -1,12 +1,5 @@
 require 'rails_helper'
 
-def basic_pass(path) # basic認証
-  username = ENV['FURIMA_BASIC_AUTH_USER']
-  password = ENV['FURIMA_BASIC_AUTH_PASSWORD']
-  visit "http://#{username}:#{password}@#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}#{path}"
-end
-
-
 RSpec.describe '商品出品', type: :system do
   before do
     @user = FactoryBot.create(:user)
@@ -15,11 +8,7 @@ RSpec.describe '商品出品', type: :system do
   context '商品出品ができるとき'do
     it 'ログインしたユーザーは商品出品ができる' do
       # ログインする
-      basic_pass new_user_session_path
-      fill_in 'メールアドレス', with: @user.email
-      fill_in 'パスワード', with: @user.password
-      find('input[name="commit"]').click
-      expect(current_path).to eq root_path
+      sign_in(@user)
       # 商品出品ページへのリンクがあることを確認する
       expect(page).to have_content('出品する')
       # 商品出品ページに移動する
@@ -74,11 +63,7 @@ RSpec.describe '商品編集', type: :system do
   context '商品編集ができるとき' do
     it 'ログインしたユーザーは自分が出品した商品の編集ができる' do
       # 商品1を出品したユーザーでログインする
-      basic_pass new_user_session_path
-      fill_in 'メールアドレス', with: @item1.user.email
-      fill_in 'パスワード', with: @item1.user.password
-      find('input[name="commit"]').click
-      expect(current_path).to eq root_path
+      sign_in(@item1.user)
       # 商品1の詳細ページへ移動する
       visit item_path(@item1.id)
       # 商品1に「編集」ボタンがあることを確認する
@@ -142,11 +127,7 @@ RSpec.describe '商品編集', type: :system do
   context '商品編集ができないとき' do
     it 'ログインしたユーザーは自分以外が出品した商品の編集画面には遷移できない' do
       # 商品1を出品したユーザーでログインする
-      basic_pass new_user_session_path
-      fill_in 'メールアドレス', with: @item1.user.email
-      fill_in 'パスワード', with: @item1.user.password
-      find('input[name="commit"]').click
-      expect(current_path).to eq root_path
+      sign_in(@item1.user)
       # 商品2の詳細ページへ移動する
       visit item_path(@item2.id)
       # 商品2に「編集」ボタンがないことを確認する
@@ -178,11 +159,7 @@ RSpec.describe '商品削除', type: :system do
   context '商品削除ができるとき' do
     it 'ログインしたユーザーは自分が出品した商品の削除ができる' do
       # 商品1を出品したユーザーでログインする
-      basic_pass new_user_session_path
-      fill_in 'メールアドレス', with: @item1.user.email
-      fill_in 'パスワード', with: @item1.user.password
-      find('input[name="commit"]').click
-      expect(current_path).to eq root_path
+      sign_in(@item1.user)
       # 商品1の詳細ページへ移動する
       visit item_path(@item1.id)
       # 商品1に「削除」ボタンがあることを確認する
@@ -206,11 +183,7 @@ RSpec.describe '商品削除', type: :system do
   context '商品削除ができないとき' do
     it 'ログインしたユーザーは自分以外が出品した商品を削除できない' do
       # 商品1を出品したユーザーでログインする
-      basic_pass new_user_session_path
-      fill_in 'メールアドレス', with: @item1.user.email
-      fill_in 'パスワード', with: @item1.user.password
-      find('input[name="commit"]').click
-      expect(current_path).to eq root_path
+      sign_in(@item1.user)
       # 商品2の詳細ページへ移動する
       visit item_path(@item2.id)
       # 商品2に「削除」ボタンがないことを確認する
