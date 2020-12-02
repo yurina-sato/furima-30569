@@ -1,12 +1,5 @@
 require 'rails_helper'
 
-def basic_pass(path) # basic認証
-  username = ENV['FURIMA_BASIC_AUTH_USER']
-  password = ENV['FURIMA_BASIC_AUTH_PASSWORD']
-  visit "http://#{username}:#{password}@#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}#{path}"
-end
-
-
 RSpec.describe 'ユーザー新規登録', type: :system do
   before do
     @user = FactoryBot.build(:user)
