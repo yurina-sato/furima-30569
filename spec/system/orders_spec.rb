@@ -7,6 +7,12 @@ def basic_pass(path) # basic認証
 end
 
 RSpec.describe "商品購入", type: :system do
+  def payjp_test # Payjp処理をモックでダミー化
+    payjp_charge = double('Payjp::Charge')
+    allow(Payjp).to receive(:api_key).and_return(true)
+    allow(Payjp::Charge).to receive(:create).and_return(payjp_charge)
+  end
+
   before do
     @user = FactoryBot.create(:user)
     @item = FactoryBot.create(:item)
@@ -44,10 +50,9 @@ RSpec.describe "商品購入", type: :system do
       # expect(current_path).to eq root_path
       # 「購入手続きが完了しました。」の文字があることを確認する
       # expect(page).to have_content('購入手続きが完了しました。')
-
     end
   end
-  context '商品出品ができないとき'do
+  context '商品購入ができないとき'do
     it '売却済みの商品は購入ページに遷移できない' do
       # ログインする
       basic_pass new_user_session_path
