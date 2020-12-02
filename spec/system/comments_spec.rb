@@ -1,11 +1,5 @@
 require 'rails_helper'
 
-def basic_pass(path) # basic認証
-  username = ENV['FURIMA_BASIC_AUTH_USER']
-  password = ENV['FURIMA_BASIC_AUTH_PASSWORD']
-  visit "http://#{username}:#{password}@#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}#{path}"
-end
-
 RSpec.describe "コメント投稿", type: :system do
   before do
     @user = FactoryBot.create(:user)
@@ -15,11 +9,7 @@ RSpec.describe "コメント投稿", type: :system do
 
   it 'ログインしたユーザーは商品詳細ページでコメント投稿できる' do
     # ログインする
-    basic_pass new_user_session_path
-    fill_in 'メールアドレス', with: @user.email
-    fill_in 'パスワード', with: @user.password
-    find('input[name="commit"]').click
-    expect(current_path).to eq root_path
+    sign_in(@user)
     # 商品詳細ページに遷移する
     visit item_path(@item.id)
     # フォームに情報を入力する
