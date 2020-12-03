@@ -5,7 +5,7 @@ RSpec.describe '商品出品', type: :system do
     @user = FactoryBot.create(:user)
     @item = FactoryBot.build(:item)
   end
-  context '商品出品ができるとき'do
+  context '商品出品ができるとき' do
     it 'ログインしたユーザーは商品出品ができる' do
       # ログインする
       sign_in(@user)
@@ -24,9 +24,9 @@ RSpec.describe '商品出品', type: :system do
       select Day.find(@item.day_id).name, from: 'item-scheduled-delivery' # 発送までの日数
       fill_in '価格', with: @item.price
       # 送信するとItemモデルのカウントが1上がることを確認する
-      expect{
+      expect  do
         find('input[name="commit"]').click
-      }.to change { Item.count }.by(1)
+      end.to change { Item.count }.by(1)
       # トップページへ遷移したことを確認する
       expect(current_path).to eq root_path
       # 「出品が完了しました」の文字があることを確認する
@@ -39,7 +39,7 @@ RSpec.describe '商品出品', type: :system do
       expect(page).to have_content(@item.price)
     end
   end
-  context '商品出品ができないとき'do
+  context '商品出品ができないとき' do
     it 'ログインしていないと商品出品ページに遷移できない' do
       # トップページに移動する
       basic_pass root_path
@@ -52,7 +52,6 @@ RSpec.describe '商品出品', type: :system do
     end
   end
 end
-
 
 RSpec.describe '商品編集', type: :system do
   before do
@@ -97,9 +96,9 @@ RSpec.describe '商品編集', type: :system do
       select Day.find(@item1_edit.day_id).name, from: 'item-scheduled-delivery' # 発送までの日数
       fill_in '価格', with: @item1_edit.price
       # 編集してもItemモデルのカウントは変わらないことを確認する
-      expect{
+      expect  do
         find('input[name="commit"]').click
-      }.to change { Item.count }.by(0)
+      end.to change { Item.count }.by(0)
       # 商品1の詳細ページへ遷移したことを確認する
       expect(current_path).to eq item_path(@item1.id)
       # 「商品の編集が完了しました。」の文字があることを確認する
@@ -150,7 +149,6 @@ RSpec.describe '商品編集', type: :system do
   end
 end
 
-
 RSpec.describe '商品削除', type: :system do
   before do
     @item1 = FactoryBot.create(:item)
@@ -165,9 +163,9 @@ RSpec.describe '商品削除', type: :system do
       # 商品1に「削除」ボタンがあることを確認する
       expect(page).to have_link '削除', href: item_path(@item1.id)
       # 商品を削除するとItemモデルのカウントが1減ることを確認する
-      expect{
+      expect do
         find_link('削除', href: item_path(@item1.id)).click
-      }.to change { Item.count }.by(-1)
+      end.to change { Item.count }.by(-1)
       # トップページに遷移したことを確認する
       expect(current_path).to eq root_path
       # 「商品を削除しました。」の文字があることを確認する

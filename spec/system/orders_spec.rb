@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "商品購入", type: :system do
+RSpec.describe '商品購入', type: :system do
   def payjp_test # Payjp処理をモックでダミー化
     payjp_charge = double('Payjp::Charge')
     allow(Payjp).to receive(:api_key).and_return(true)
@@ -12,7 +12,7 @@ RSpec.describe "商品購入", type: :system do
     @item = FactoryBot.create(:item)
     @order_address = FactoryBot.build(:order_address, user_id: @user.id, item_id: @item.id)
   end
-  context '商品購入ができるとき'do
+  context '商品購入ができるとき' do
     it 'ログインしたユーザーは商品購入ができる' do
       # ログインする
       sign_in(@user)
@@ -38,14 +38,13 @@ RSpec.describe "商品購入", type: :system do
       expect(page).to have_content('購入手続きが完了しました。') # 先にhave_contentすることでリダイレクト処理を完了させる
       expect(current_path).to eq root_path
       # Orderモデルのカウントが1上がっていることを確認する
-      expect(Order.count).to eq 1 
-      
+      expect(Order.count).to eq 1
     end
   end
-  context '商品購入ができないとき'do
+  context '商品購入ができないとき' do
     it '売却済みの商品は購入ページに遷移できない' do
       @sold_item = FactoryBot.create(:item) # 売却済み商品用
-      @sold_order = FactoryBot.create(:order, item_id:@sold_item.id) # 売却済みの購入情報
+      @sold_order = FactoryBot.create(:order, item_id: @sold_item.id) # 売却済みの購入情報
 
       # ログインする
       sign_in(@user)
@@ -68,11 +67,10 @@ RSpec.describe "商品購入", type: :system do
       basic_pass root_path
       # 商品詳細ページに遷移する
       visit item_path(@item.id)
-       # 商品購入ページに移動する
+      # 商品購入ページに移動する
       visit item_orders_path(@item.id)
       # ログインページに遷移したことを確認する
       expect(current_path).to eq new_user_session_path
     end
-    
   end
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "コメント投稿", type: :system do
+RSpec.describe 'コメント投稿', type: :system do
   before do
     @user = FactoryBot.create(:user)
     @item = FactoryBot.create(:item)
@@ -15,9 +15,9 @@ RSpec.describe "コメント投稿", type: :system do
     # フォームに情報を入力する
     fill_in 'comment_text', with: @comment.text
     # コメントを送信すると、Commentモデルのカウントが1上がることを確認する
-    expect{
+    expect  do
       find('input[name="commit"]').click
-    }.to change { Comment.count }.by(1)
+    end.to change { Comment.count }.by(1)
     # 「コメントを投稿しました。」の文字があることを確認する
     expect(page).to have_content('コメントを投稿しました。')
     # 詳細ページ上に先ほどのコメント内容が含まれていることを確認する(コメントしたuser名)
@@ -33,5 +33,4 @@ RSpec.describe "コメント投稿", type: :system do
     # 商品詳細ページにコメント投稿フォームがないことを確認する
     expect(page).to have_no_selector 'textarea.comment[text]' # 投稿フォーム
   end
-
 end
