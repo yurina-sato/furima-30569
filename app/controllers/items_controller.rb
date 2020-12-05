@@ -2,7 +2,9 @@ class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :set_search, only: [:index, :show]
   before_action :authenticate_user!, except: [:index, :show, :search]
-  before_action :move_to_index, only: [:edit, :update, :destroy]
+  # before_action :move_to_index, only: [:edit, :update, :destroy]
+  before_action :move_to_index, only: [:destroy]
+
 
   def index
     @items = Item.where(checked: false).with_attached_images.includes(:order, :likes, :user).order('created_at DESC') # N+1問題対策、売却済商品は表示設定分
