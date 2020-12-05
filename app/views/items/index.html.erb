@@ -121,8 +121,8 @@
     <%= link_to '新規投稿商品', "#", class: "subtitle" %>
     <ul class='item-lists'>
       <%# 全商品の一覧 %>
-      <%= render partial: "shared/item_lists", locals: { items: @items } %>
-      
+      <%= render partial: "shared/item_lists", locals: { items: @items } %> 
+
       <%# 商品がない場合のダミー %>
       <% if @items == nil %>
         <li class='list'>

@@ -43,6 +43,15 @@
       <p class='or-text'>or</p>
       <%= link_to '削除', item_path(@item.id), method: :delete, class:'item-destroy' %>
     <% end %>
+    <%# 商品が売れている場合(出品者)※一覧から非表示を選べるようにする %>
+    <% if user_signed_in? && @item.user.id == current_user.id && @item.order != nil %>
+      <% if @item.checked == false %>
+        <%= link_to '一覧から非表示', checked_item_path(@item.id), method: :patch, class:'item-destroy' %>
+      <% else %>
+        <%= link_to '一覧に表示', checked_item_path(@item.id), method: :patch, class:'item-destroy' %>
+      <% end %>
+    <% end %>
+
     <%# 商品が売れていない場合(出品者以外) %>
     <% if user_signed_in? && @item.user.id != current_user.id && @item.order == nil %>
       <%= link_to '購入画面に進む', item_orders_path(@item.id), class:"item-red-btn"%>
