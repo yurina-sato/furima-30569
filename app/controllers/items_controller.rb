@@ -31,7 +31,7 @@ class ItemsController < ApplicationController
   end
 
   def update
-    if @item.update(item_params)
+    if @item.update(item_params, checked: false)
       redirect_to item_path(@item.id), notice: '商品の編集が完了しました。'
     else
       render :edit
