@@ -8,6 +8,9 @@ Rails.application.routes.draw do
     collection do
       get 'search'
     end
+    member do
+       patch 'checked'
+    end
   end
   resources :users, only: [:show]
   root to: "items#index"
