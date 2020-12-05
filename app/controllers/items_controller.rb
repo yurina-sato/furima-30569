@@ -5,7 +5,7 @@ class ItemsController < ApplicationController
   before_action :move_to_index, only: [:edit, :update, :destroy]
 
   def index
-    @items = Item.with_attached_images.includes(:order, :likes, :user).order('created_at DESC') # N+1問題対策
+    @items = Item.where(checked: false).with_attached_images.includes(:order, :likes, :user).order('created_at DESC') # N+1問題対策、売却済商品は表示設定分
   end
 
   def show
@@ -19,7 +19,7 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @item = Item.new(item_params)
+    @item = Item.new(item_params, checked: false)
     if @item.save
       redirect_to root_path, notice: '出品が完了しました。'
     else
@@ -54,6 +54,20 @@ class ItemsController < ApplicationController
     else
       @search = Item.ransack(search_params)
       @items = @search.result(distinct: true).order('created_at DESC')
+    end
+  end
+
+  def checked # 売却済商品の非表示を選択可能に
+    @item = Item.find(params[:id])
+    if @item.checked == true
+      @item.update(checked: false)
+      redirect_to item_path(@item.id), notice: '表示設定をしました。'
+    elsif @item.checked == false
+      @item.update(checked: true)
+      redirect_to item_path(@item.id), notice: '非表示に設定しました。'
+    else
+      flash.now[:alart] = '非表示設定のできない商品です。'
+      redirect_to item_path(@item.id)
     end
   end
 
